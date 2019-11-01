@@ -113,24 +113,28 @@ def main(args) :
     # Rolling average of BG points in time
     #
     # Solid "error bars" are achieved using fill_between function
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(constrained_layout=True)
+
     ax.set(xlabel='time', ylabel='BG (mg/dL)',title='Seventeen-week average')
 
     timerange17,avg17,rms17 = GetBGRollingAverageAndRMS(all_data,17,4)
-    ax.plot(timerange17,avg17)
+    ax.plot(timerange17,avg17,label='17-week rolling average')
     ax.fill_between(timerange17, avg17-rms17, avg17+rms17,
                      alpha=0.5, edgecolor='#1B2ACC', facecolor='#089FFF')
 
-    timerange4,avg4,rms4 = GetBGRollingAverageAndRMS(all_data,4,4)
-    ax.plot(timerange4,avg4)
+    timerange4,avg4,rms4 = GetBGRollingAverageAndRMS(all_data,4,2)
+    ax.plot(timerange4,avg4,label='4-week rolling average')
     ax.fill_between(timerange4, avg4-rms4, avg4+rms4,
                      alpha=0.5, edgecolor='#ffa505', facecolor='#ffa500')
 
     timerange1,avg1,rms1 = GetBGRollingAverageAndRMS(all_data,1,1,step_days=7)
-    ax.scatter(timerange1,avg1)
+    ax.scatter(timerange1,avg1,label='1-week average')
+
+    plt.legend()
 
     plt.show()
 
+    print('done.')
     return
 
 if __name__ == '__main__' :
